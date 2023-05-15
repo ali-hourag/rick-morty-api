@@ -1,0 +1,127 @@
+body,
+html {
+    font-family: 'Rick-Morty-Font', sans-serif;
+}
+
+body {
+    background-image: url(../assets/img/bg-rick.png);
+    background-size: cover;
+    background-attachment: fixed;
+    color: lightgreen;
+}
+
+@font-face {
+    font-family: Rick-Morty-Font;
+    src: url(/assets/get_schwifty.ttf);
+}
+
+/*------STYLES FOR HEADER PART--------*/
+.header {
+    height: 10vh;
+    background-color: rgb(7, 54, 66, 0.7);
+    border-bottom: 1px solid antiquewhite;
+}
+
+.breadcrumbContainer_ol-margin {
+    flex: 1;
+    margin-top: 1rem;
+}
+
+.link-section {
+    color: lightgoldenrodyellow;
+}
+
+.seriesTitle_h1-styles {
+    flex: 1;
+    margin-top: 1rem;
+    color: yellow;
+}
+
+.titleSpan--small-font {
+    font-size: 1.5rem;
+}
+
+.empty-div {
+    visibility: hidden;
+    flex: 1;
+}
+
+/*------STYLES FOR THE MAIN CONTAINER PART--------*/
+.episode-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.mainContainer_main-styles {
+    height: 90vh;
+}
+
+.episodes-sidebar {
+    background-color: rgb(7, 54, 66, 0.7);
+    height: 10vh;
+    width: 100vw;
+}
+
+
+.episode-link {
+    width: 300px;
+    text-align: center;
+    cursor: pointer;
+    padding: 2rem 2rem;
+}
+
+.title-episodes {
+    color: lightgreen;
+}
+
+.text-episode {
+    color: lightgoldenrodyellow;
+}
+
+
+.container {
+    background-color: rgb(7, 54, 66, 0.85);
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    height: 90vh;
+}
+
+.character-info {
+    display: none;
+    /*Flex*/
+    flex-direction: column;
+
+}
+
+.card-character-selected {}
+
+.img-character-selected {
+    width: 10rem;
+    aspect-ratio: 2/2;
+    object-fit: cover;
+}
+
+.episode-card-character-selected:hover {
+    cursor: pointer;
+    color: antiquewhite;
+}
+
+/*----RESPONSIVE-----*/
+@media screen and (max-width: 764px) {
+    .seriesTitle_h1-styles {
+        font-size: 2rem;
+    }
+
+    .breadcrumbContainer_ol-margin,
+    .empty-div {
+        display: none;
+    }
+
+    .container {
+        width: 90vw;
+    }
+
+}
