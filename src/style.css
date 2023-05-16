@@ -22,12 +22,12 @@ body {
     border-bottom: 1px solid antiquewhite;
 }
 
-.breadcrumbContainer_ol-margin {
+.breadcrumbContainer_ol {
     flex: 1;
     margin-top: 1rem;
 }
 
-.link-section {
+.breadcrumb-item {
     color: lightgoldenrodyellow;
 }
 
@@ -62,7 +62,6 @@ body {
     width: 100vw;
 }
 
-
 .episode-link {
     width: 300px;
     text-align: center;
@@ -90,7 +89,7 @@ body {
 }
 
 .character-info {
-    display: none;
+    display: flex;
     /*Flex*/
     flex-direction: column;
 
@@ -115,7 +114,7 @@ body {
         font-size: 2rem;
     }
 
-    .breadcrumbContainer_ol-margin,
+    .breadcrumbContainer_ol,
     .empty-div {
         display: none;
     }
@@ -124,4 +123,8 @@ body {
         width: 90vw;
     }
 
+}
+
+.sections-display {
+    display: none;
 }
