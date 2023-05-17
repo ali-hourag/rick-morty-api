@@ -1,4 +1,4 @@
-
+import { Episodes } from "./interface.js";
 
 
 export function setHeader(): void {
@@ -64,7 +64,6 @@ export function setEpisodes(): void {
     //To show everything
     header?.insertAdjacentElement("afterend", main);
 
-    addEpisodes(1);
 
     //Now I am going to add the main container without the sections so that it is prepared.
     //Also the sections will be created and prepared but not appended.
@@ -79,15 +78,14 @@ export function setEpisodes(): void {
  * if we have 40, then from 41 to 51
  * It must receive 1, 21 or 41
  */
-export function addEpisodes(startIndex: (1 | 21 | 41)): void {
+export function addEpisodes(result: Episodes["results"]): void {
+
     const divEpisodes: (HTMLDivElement | null) = document.querySelector(".episodes-bar-container");
     const anchorClasses: string = "episode-link list-group-item list-group-item-action py-3 lh-tight";
     const pClass: string = "text-episode";
+    let startIndex: number = result[0].id;
+    let endIndex: number = result[result.length - 1].id;
 
-    let endIndex: number;
-    if (startIndex === 1) endIndex = 20;
-    else if (startIndex === 21) endIndex = 40;
-    else endIndex = 51
 
     for (let i = startIndex; i <= endIndex; i++) {
         const aEpisode: (HTMLAnchorElement) = document.createElement("a");
@@ -98,6 +96,19 @@ export function addEpisodes(startIndex: (1 | 21 | 41)): void {
         pEpisode.innerText = `Episode ${i}`;
         aEpisode.appendChild(pEpisode);
         divEpisodes?.appendChild(aEpisode);
+    }
+    if (sessionStorage.getItem("page") !== null) {
+        if (startIndex === 21) {
+            sessionStorage.setItem("page", "2");
+            sessionStorage.setItem("endScroll", "false");
+        }
+        else if (startIndex === 41) {
+            sessionStorage.setItem("page", "3");
+            sessionStorage.setItem("endScroll", "true");
+        }
+    } else {
+        sessionStorage.setItem("page", "1");
+        sessionStorage.setItem("endScroll", "false");
     }
 }
 

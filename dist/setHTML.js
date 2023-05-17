@@ -59,20 +59,14 @@ export function setEpisodes() {
     pEpisodes.innerText = "EPISODES";
     divEpisodes.setAttribute("class", "episodes-bar-container d-flex flex-row overflow-auto list-group list-group-flush border-bottom scrollarea");
     header === null || header === void 0 ? void 0 : header.insertAdjacentElement("afterend", main);
-    addEpisodes(1);
     setMainContainer();
 }
-export function addEpisodes(startIndex) {
+export function addEpisodes(result) {
     const divEpisodes = document.querySelector(".episodes-bar-container");
     const anchorClasses = "episode-link list-group-item list-group-item-action py-3 lh-tight";
     const pClass = "text-episode";
-    let endIndex;
-    if (startIndex === 1)
-        endIndex = 20;
-    else if (startIndex === 21)
-        endIndex = 40;
-    else
-        endIndex = 51;
+    let startIndex = result[0].id;
+    let endIndex = result[result.length - 1].id;
     for (let i = startIndex; i <= endIndex; i++) {
         const aEpisode = document.createElement("a");
         const pEpisode = document.createElement("p");
@@ -82,6 +76,20 @@ export function addEpisodes(startIndex) {
         pEpisode.innerText = `Episode ${i}`;
         aEpisode.appendChild(pEpisode);
         divEpisodes === null || divEpisodes === void 0 ? void 0 : divEpisodes.appendChild(aEpisode);
+    }
+    if (sessionStorage.getItem("page") !== null) {
+        if (startIndex === 21) {
+            sessionStorage.setItem("page", "2");
+            sessionStorage.setItem("endScroll", "false");
+        }
+        else if (startIndex === 41) {
+            sessionStorage.setItem("page", "3");
+            sessionStorage.setItem("endScroll", "true");
+        }
+    }
+    else {
+        sessionStorage.setItem("page", "1");
+        sessionStorage.setItem("endScroll", "false");
     }
 }
 function setMainContainer() {

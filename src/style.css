@@ -52,6 +52,10 @@ body {
     flex-direction: column;
 }
 
+.episodes-bar-container {
+    box-sizing: border-box;
+}
+
 .mainContainer_main-styles {
     height: 90vh;
 }
@@ -94,8 +98,6 @@ body {
     flex-direction: column;
 
 }
-
-.card-character-selected {}
 
 .img-character-selected {
     width: 10rem;
