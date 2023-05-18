@@ -90,7 +90,7 @@ async function setDefaultEpisode(): Promise<void> {
     addCharacters(episodeInfo.characters);
 
     //Show episode section after everything has been set
-    episodeSection?.classList.add("sections-display");
+    episodeSection.classList.add("sections-display");
 }
 
 //------------------------------------------------------------------------------------------------------------

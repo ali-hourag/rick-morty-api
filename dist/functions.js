@@ -62,7 +62,7 @@ function setDefaultEpisode() {
         headerEpisode.innerText = `EPISODE 1 -- ${episodeInfo.name}`;
         pInfoEpisode.innerText = `${episodeInfo.air_date} ---- ${episodeInfo.episode}`;
         addCharacters(episodeInfo.characters);
-        episodeSection === null || episodeSection === void 0 ? void 0 : episodeSection.classList.add("sections-display");
+        episodeSection.classList.add("sections-display");
     });
 }
 function addCharacters(charactersURL) {
