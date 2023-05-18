@@ -1,3 +1,10 @@
+/**
+ * In this file we have the different types defined
+ * of the different objects.
+ * They will be assigned to the objects obtained
+ * after making requests to the API
+ */
+
 
 export interface Info {
     info: {
@@ -11,8 +18,8 @@ export interface Info {
 export interface Episode {
     id: number;
     name: string;
-    airDate: string;
-    episodeCode: string;
+    air_date: string;
+    episode: string;
     characters: Array<string>;
     url: string;
     created: string;
@@ -30,6 +37,10 @@ export interface Character {
     type: string;
     gender: string;
     origin: {
+        name: string;
+        url: string;
+    }
+    location: {
         name: string;
         url: string;
     }

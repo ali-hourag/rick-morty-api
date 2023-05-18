@@ -48,7 +48,7 @@ body {
 
 /*------STYLES FOR THE MAIN CONTAINER PART--------*/
 .episode-info {
-    display: flex;
+    display: none;
     flex-direction: column;
 }
 
@@ -61,7 +61,7 @@ body {
 }
 
 .episodes-sidebar {
-    background-color: rgb(7, 54, 66, 0.7);
+    background-color: rgb(7, 54, 66, 0.5);
     height: 10vh;
     width: 100vw;
 }
@@ -81,6 +81,28 @@ body {
     color: lightgoldenrodyellow;
 }
 
+.title-card {
+    min-height: 60px;
+}
+
+
+.character-location-origin,
+.character-location-actual {
+    color: antiquewhite;
+}
+
+.character-location-origin:hover,
+.character-location-actual:hover {
+    color: lightgreen;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+.character-selected-state {
+    color: aquamarine;
+}
+
 
 .container {
     background-color: rgb(7, 54, 66, 0.85);
@@ -92,11 +114,30 @@ body {
     height: 90vh;
 }
 
+.card {
+    transition: box-shadow 200ms ease-out;
+    -webkit-transition: box-shadow 200ms ease-out;
+    -moz-transition: box-shadow 200ms ease-out;
+    -ms-transition: box-shadow 200ms ease-out;
+    -o-transition: box-shadow 200ms ease-out;
+}
+
+.card:hover {
+    cursor: pointer;
+    box-shadow: 0 0 15px antiquewhite;
+}
+
+.h3-episode {}
+
+.p-info-episode {
+    color: antiquewhite;
+    justify-self: center;
+}
+
 .character-info {
-    display: flex;
+    display: none;
     /*Flex*/
     flex-direction: column;
-
 }
 
 .img-character-selected {
@@ -127,6 +168,18 @@ body {
 
 }
 
+@media screen and (max-width: 450px) {
+    .h4-title-card {
+        font-size: 1.2rem;
+    }
+
+    .character-selected-state,
+    .character-location-origin,
+    .character-location-actual {
+        font-size: .8rem;
+    }
+}
+
 .sections-display {
-    display: none;
+    display: flex;
 }

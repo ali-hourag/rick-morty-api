@@ -14,23 +14,16 @@ export function getEpisodes(page = "") {
         return episodes;
     });
 }
-export function getEpisode(episodeNum) {
+export function getEpisode(URL = "https://rickandmortyapi.com/api/episode", id = "") {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(`https://rickandmortyapi.com/api/episode/${episodeNum.toString()}`);
+        const res = yield fetch(`${URL}/${id}`);
         const episode = yield res.json();
         return episode;
     });
 }
-export function getCharacters(page = "") {
+export function getCharacter(URL = "https://rickandmortyapi.com/api/character", id = "") {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(`https://rickandmortyapi.com/api/character${page}`);
-        const characters = yield res.json();
-        return characters;
-    });
-}
-export function getCharacter(charNum) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(`https://rickandmortyapi.com/api/character/${charNum.toString()}`);
+        const res = yield fetch(`${URL}/${id}`);
         const character = yield res.json();
         return character;
     });

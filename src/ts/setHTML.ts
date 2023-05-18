@@ -1,8 +1,16 @@
-import { Episodes } from "./interface.js";
-
-
+/**
+ * The functions on this file set the HTML page from
+ * ts.
+ * The function setHeader is called from the script.ts
+ * and this one calls the rest to the other parts of the HTML.
+ * 
+ * The parts that are set are the ones that do not change.
+ * For example, the character cards part, it keeps changing
+ * depending on the episode clicked. This part is not set from here.
+ * The static elements are.
+ */
 export function setHeader(): void {
-    const body: (HTMLBodyElement | null) = document.querySelector("body");
+    const body = document.querySelector("body") as HTMLBodyElement;
     const header: (HTMLElement) = document.createElement("header");
     const nav: (HTMLElement) = document.createElement("nav");
     const divContainer: (HTMLDivElement) = document.createElement("div");
@@ -21,7 +29,7 @@ export function setHeader(): void {
         li.setAttribute("aria-current", "page");
         ol.appendChild(li);
     }
-    body?.setAttribute("class", "vw-100 vh-100 d-flex flex-column");
+    body.setAttribute("class", "vw-100 vh-100 d-flex flex-column");
     header.classList.add("header");
     nav.setAttribute("class", "navbar navbar-dark h-100");
     nav.setAttribute("aria-label", "Navbar with information");
@@ -40,11 +48,16 @@ export function setHeader(): void {
     divBreadcrumb.appendChild(ol);
     divContainer.appendChild(h1);
     divContainer.appendChild(emptyDiv);
-    body?.insertAdjacentElement("afterbegin", header);
+    body.insertAdjacentElement("afterbegin", header);
+
+    setEpisodes();
 }
 
-export function setEpisodes(): void {
-    const header: (HTMLElement | null) = document.querySelector("header");
+/**
+ * Set the episodes sidebar part and its children nodes.
+ */
+function setEpisodes(): void {
+    const header = document.querySelector("header") as HTMLElement;
     const main: (HTMLElement) = document.createElement("main");
     const episodesSection: (HTMLElement) = document.createElement("section");
     const aEpisodes: (HTMLAnchorElement) = document.createElement("a");
@@ -62,7 +75,7 @@ export function setEpisodes(): void {
     pEpisodes.innerText = "EPISODES";
     divEpisodes.setAttribute("class", "episodes-bar-container d-flex flex-row overflow-auto list-group list-group-flush border-bottom scrollarea");
     //To show everything
-    header?.insertAdjacentElement("afterend", main);
+    header.insertAdjacentElement("afterend", main);
 
 
     //Now I am going to add the main container without the sections so that it is prepared.
@@ -70,50 +83,10 @@ export function setEpisodes(): void {
     setMainContainer();
 }
 
+
 /**
- * 
- * @param startIndex index in which it starts getting episodes
- * since episodes are taken by pages, if we have 1, then from 1 to 20.
- * if we have 21, then from 21 to 40,
- * if we have 40, then from 41 to 51
- * It must receive 1, 21 or 41
+ * Set main container element and its chil nodes.
  */
-export function addEpisodes(result: Episodes["results"]): void {
-
-    const divEpisodes: (HTMLDivElement | null) = document.querySelector(".episodes-bar-container");
-    const anchorClasses: string = "episode-link list-group-item list-group-item-action py-3 lh-tight";
-    const pClass: string = "text-episode";
-    let startIndex: number = result[0].id;
-    let endIndex: number = result[result.length - 1].id;
-
-
-    for (let i = startIndex; i <= endIndex; i++) {
-        const aEpisode: (HTMLAnchorElement) = document.createElement("a");
-        const pEpisode: (HTMLParagraphElement) = document.createElement("p");
-        aEpisode.setAttribute("class", anchorClasses);
-        pEpisode.setAttribute("class", pClass);
-        pEpisode.setAttribute("id", i.toString());
-        pEpisode.innerText = `Episode ${i}`;
-        aEpisode.appendChild(pEpisode);
-        divEpisodes?.appendChild(aEpisode);
-    }
-    if (sessionStorage.getItem("page") !== null) {
-        if (startIndex === 21) {
-            sessionStorage.setItem("page", "2");
-            sessionStorage.setItem("endScroll", "false");
-        }
-        else if (startIndex === 41) {
-            sessionStorage.setItem("page", "3");
-            sessionStorage.setItem("endScroll", "true");
-        }
-    } else {
-        sessionStorage.setItem("page", "1");
-        sessionStorage.setItem("endScroll", "false");
-    }
-}
-
-
-
 function setMainContainer() {
     //Creation and preparation of the episodes section
     //Do not append the section to the mainContainer until we need it.
@@ -122,12 +95,12 @@ function setMainContainer() {
     //will be changed and the episode and characters will be added in another function
     //Same for the other section. Here i create the HTML that will not change so that
     //the template is already created.
-    const main: (HTMLElement | null) = document.querySelector(".main");
+    const main = document.querySelector(".main") as HTMLElement;
     const mainContainer: (HTMLDivElement) = document.createElement("div");
-    const episodesSection: (HTMLElement) = document.createElement("section");
+    const episodeSection: (HTMLElement) = document.createElement("section");
     const divTitleES: (HTMLDivElement) = document.createElement("div");
     const titleH3ES: (HTMLHeadingElement) = document.createElement("h3");
-    const smallH3ES: (HTMLElement) = document.createElement("small");
+    const pInfoES: (HTMLElement) = document.createElement("p");
     const divContentES: (HTMLDivElement) = document.createElement("div");
     const characterSection: (HTMLElement) = document.createElement("section");
     const characterCardContainerDivCS: (HTMLDivElement) = document.createElement("div");
@@ -137,38 +110,43 @@ function setMainContainer() {
     const titleH4CS: (HTMLHeadingElement) = document.createElement("h4");
     const p1CS: (HTMLParagraphElement) = document.createElement("p");
     const p2CS: (HTMLParagraphElement) = document.createElement("p");
+    const p3CS: (HTMLParagraphElement) = document.createElement("p");
     const divEpisodesCS: (HTMLDivElement) = document.createElement("div");
 
     mainContainer.setAttribute("class", "container overflow-auto mt-5 mb-5 p-3");
-    episodesSection.classList.add("episode-info");
-    divTitleES.classList.add("row");
-    titleH3ES.setAttribute("class", "p-3 pl-5");
-    smallH3ES.setAttribute("class", "d-block p-3 text-info");
-    divContentES.setAttribute("class", "row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 p-3");
+    episodeSection.classList.add("episode-info");
+    divTitleES.setAttribute("class", "row");
+    titleH3ES.setAttribute("class", "col-12 h3-episode p-3 pl-5 text-center");
+    pInfoES.setAttribute("class", "col-12 p-info-episode p-3 text-center");
+    divContentES.setAttribute("class", "row characters-container row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 p-3");
     characterSection.classList.add("character-info");
     characterCardContainerDivCS.setAttribute("class", "character-card-container");
     characterCardDivCS.setAttribute("class", "card card-character-selected d-flex flex-row mb-5");
     charImgCS.setAttribute("class", "card-img-top img-character-selected");
-    charImgCS.setAttribute("src", "../assets/img");
     charImgCS.setAttribute("alt", "Card image cap");
     cardBodyDivCS.setAttribute("class", "card-body text-center");
-    p1CS.setAttribute("class", "card-text");
-    p2CS.setAttribute("class", "character-location-origin-actual");
+    titleH4CS.setAttribute("class", "title-card h4-title-card text-truncate");
+    p1CS.setAttribute("class", "card-text character-selected-state");
+    p2CS.setAttribute("class", "character-location-origin");
+    p3CS.setAttribute("class", "character-location-actual");
     divEpisodesCS.setAttribute("class", "row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 episodes-container");
-    episodesSection.appendChild(divTitleES);
-    main?.appendChild(mainContainer);
+
+    episodeSection.appendChild(divTitleES);
+    main.appendChild(mainContainer);
     divTitleES.appendChild(titleH3ES);
-    titleH3ES.appendChild(smallH3ES);
-    episodesSection.appendChild(divContentES);
+    divTitleES.appendChild(pInfoES);
+    episodeSection.appendChild(divContentES);
+
     characterSection.appendChild(characterCardContainerDivCS);
     characterCardContainerDivCS.appendChild(characterCardDivCS);
     characterCardDivCS.appendChild(charImgCS);
     characterCardDivCS.appendChild(cardBodyDivCS);
-    titleH4CS.classList.add("title-card");
     cardBodyDivCS.appendChild(titleH4CS);
     cardBodyDivCS.appendChild(p1CS);
     cardBodyDivCS.appendChild(p2CS);
+    cardBodyDivCS.appendChild(p3CS);
     characterSection.appendChild(divEpisodesCS);
 
-    //mainContainer.appendChild(characterSection);
+    mainContainer.appendChild(episodeSection);
+    mainContainer.appendChild(characterSection);
 }
