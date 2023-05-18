@@ -15,7 +15,7 @@ body {
     src: url(/assets/get_schwifty.ttf);
 }
 
-/*------STYLES FOR HEADER PART--------*/
+/*------------STYLES FOR HEADER PART---------------*/
 .header {
     height: 10vh;
     background-color: rgb(7, 54, 66, 0.7);
@@ -46,24 +46,26 @@ body {
     flex: 1;
 }
 
-/*------STYLES FOR THE MAIN CONTAINER PART--------*/
-.episode-info {
-    display: none;
-    flex-direction: column;
-}
+/*-------------STYLES FOR THE MAIN CONTAINER PART--------------*/
 
-.episodes-bar-container {
-    box-sizing: border-box;
-}
-
+/*MAIN*/
 .mainContainer_main-styles {
     height: 90vh;
 }
 
+/*TOP SIDEBAR*/
 .episodes-sidebar {
     background-color: rgb(7, 54, 66, 0.5);
     height: 10vh;
     width: 100vw;
+}
+
+.title-episodes {
+    color: lightgreen;
+}
+
+.episodes-bar-container {
+    box-sizing: border-box;
 }
 
 .episode-link {
@@ -73,37 +75,11 @@ body {
     padding: 2rem 2rem;
 }
 
-.title-episodes {
-    color: lightgreen;
-}
-
 .text-episode {
     color: lightgoldenrodyellow;
 }
 
-.title-card {
-    min-height: 60px;
-}
-
-
-.character-location-origin,
-.character-location-actual {
-    color: antiquewhite;
-}
-
-.character-location-origin:hover,
-.character-location-actual:hover {
-    color: lightgreen;
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-
-.character-selected-state {
-    color: aquamarine;
-}
-
-
+/*CONTAINER OF SECTIONS EPISODE AND CHARACTER*/
 .container {
     background-color: rgb(7, 54, 66, 0.85);
     border-radius: 20px;
@@ -112,6 +88,22 @@ body {
     -ms-border-radius: 20px;
     -o-border-radius: 20px;
     height: 90vh;
+}
+
+/*EPISODES SECTION*/
+.episode-info {
+    display: none;
+    /*Flex*/
+    flex-direction: column;
+}
+
+.title-card {
+    min-height: 60px;
+}
+
+.p-info-episode {
+    color: antiquewhite;
+    justify-self: center;
 }
 
 .card {
@@ -127,17 +119,27 @@ body {
     box-shadow: 0 0 15px antiquewhite;
 }
 
-.h3-episode {}
-
-.p-info-episode {
-    color: antiquewhite;
-    justify-self: center;
-}
-
+/*CHARACTER SECTION*/
 .character-info {
     display: none;
     /*Flex*/
     flex-direction: column;
+}
+
+.character-selected-state {
+    color: aquamarine;
+}
+
+.character-location-origin,
+.character-location-actual {
+    color: antiquewhite;
+}
+
+.character-location-origin:hover,
+.character-location-actual:hover {
+    color: lightgreen;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .img-character-selected {
@@ -151,17 +153,27 @@ body {
     color: antiquewhite;
 }
 
-/*----RESPONSIVE-----*/
+
+/*----------Class toggled between sections to show them when wished----------*/
+.sections-display {
+    display: flex;
+}
+
+/*------------------RESPONSIVE-------------------*/
 @media screen and (max-width: 764px) {
+
+    /*Reduce font size*/
     .seriesTitle_h1-styles {
         font-size: 2rem;
     }
 
+    /*Remove breadcrumb due to lack of space*/
     .breadcrumbContainer_ol,
     .empty-div {
         display: none;
     }
 
+    /*Make the container occupy most of the width*/
     .container {
         width: 90vw;
     }
@@ -169,6 +181,8 @@ body {
 }
 
 @media screen and (max-width: 450px) {
+
+    /*Changes of font size for mobile version*/
     .h4-title-card {
         font-size: 1.2rem;
     }
@@ -178,8 +192,4 @@ body {
     .character-location-actual {
         font-size: .8rem;
     }
-}
-
-.sections-display {
-    display: flex;
 }

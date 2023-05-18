@@ -3,9 +3,14 @@ import { getEpisodes } from "./fetchAPI.js";
 import { Episodes } from "./interface.js";
 import { infiniteScrollSB, addEpisodes } from "./functions.js";
 
-//Function called when the page is loaded.
 window.addEventListener("load", pageLoaded);
 
+/**
+ * Function without param or return.
+ * Called when the page is loaded and prepares the
+ * web so that it is ready to run by using
+ * other funcionts.
+ */
 async function pageLoaded(): Promise<void> {
     //Clear session storage from possible data entered before.
     //It will be needed if the page is refreshed and data has been stored in session storage
@@ -17,7 +22,8 @@ async function pageLoaded(): Promise<void> {
     addEpisodes(episodes.results);
 
     //Event listener to the sidebar to make it infinite
-    const episodesContainer = document.querySelector(".episodes-bar-container") as HTMLDivElement;
+    const episodesContainer: (HTMLDivElement | null) = document.querySelector(".episodes-bar-container");
+    if (episodesContainer === null) return;
     episodesContainer.addEventListener("scroll", infiniteScrollSB);
 
 }

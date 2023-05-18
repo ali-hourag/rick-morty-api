@@ -9,8 +9,12 @@
  * depending on the episode clicked. This part is not set from here.
  * The static elements are.
  */
+//-----------------------------------------------------------------------------------------------
+/**
+ * This function sets the header part of the HTML
+ */
 export function setHeader(): void {
-    const body = document.querySelector("body") as HTMLBodyElement;
+    const body: (HTMLBodyElement | null) = document.querySelector("body");
     const header: (HTMLElement) = document.createElement("header");
     const nav: (HTMLElement) = document.createElement("nav");
     const divContainer: (HTMLDivElement) = document.createElement("div");
@@ -18,6 +22,7 @@ export function setHeader(): void {
     const ol: (HTMLOListElement) = document.createElement("ol");
     const h1: (HTMLHeadingElement) = document.createElement("h1");
     const emptyDiv: (HTMLDivElement) = document.createElement("div");
+    if (body === null) return;
     for (let i = 0; i < 3; i++) {
         const li: (HTMLLIElement) = document.createElement("li");
         li.classList.add("breadcrumb-item");
@@ -52,17 +57,20 @@ export function setHeader(): void {
 
     setEpisodes();
 }
-
+//-----------------------------------------------------------------------------------------------
 /**
  * Set the episodes sidebar part and its children nodes.
+ * No episodes are added. It is prepares so that when it
+ * comes the time to add them, just an append will be enough
  */
 function setEpisodes(): void {
-    const header = document.querySelector("header") as HTMLElement;
+    const header: (HTMLElement | null) = document.querySelector("header");
     const main: (HTMLElement) = document.createElement("main");
     const episodesSection: (HTMLElement) = document.createElement("section");
     const aEpisodes: (HTMLAnchorElement) = document.createElement("a");
     const pEpisodes: (HTMLParagraphElement) = document.createElement("p");
     const divEpisodes: (HTMLDivElement) = document.createElement("div");
+    if (header === null) return;
 
     main.setAttribute("class", "main mainContainer_main-styles d-flex flex-column");
     main.appendChild(episodesSection);
@@ -77,25 +85,28 @@ function setEpisodes(): void {
     //To show everything
     header.insertAdjacentElement("afterend", main);
 
-
     //Now I am going to add the main container without the sections so that it is prepared.
     //Also the sections will be created and prepared but not appended.
     setMainContainer();
 }
-
+//-----------------------------------------------------------------------------------------------
 
 /**
  * Set main container element and its chil nodes.
+ * The container and its sections are prepared, but not shown.
+ * Typescript studies when it will be shown and when the content of episodes, character,
+ * location will be appended and / or shown.
+ * Some things will be shown through innerText and others will be appended.
  */
 function setMainContainer() {
-    //Creation and preparation of the episodes section
-    //Do not append the section to the mainContainer until we need it.
-    //Leave the part of the section that changes to be added
-    //depending on the situation. If we ask for episodes, then the episodesSection
-    //will be changed and the episode and characters will be added in another function
-    //Same for the other section. Here i create the HTML that will not change so that
-    //the template is already created.
-    const main = document.querySelector(".main") as HTMLElement;
+    // Creation and preparation of the episodes section
+    // Do not append the section to the mainContainer until we need it.
+    // Leave the part of the section that changes to be added
+    // depending on the situation. If we ask for episodes, then the episodesSection
+    // will be changed and the episodes and characters will be added in another function
+    // Same for the other section. Here, I create the HTML that will not change so that
+    // the template is already created.
+    const main: (HTMLElement | null) = document.querySelector(".main");
     const mainContainer: (HTMLDivElement) = document.createElement("div");
     const episodeSection: (HTMLElement) = document.createElement("section");
     const divTitleES: (HTMLDivElement) = document.createElement("div");
@@ -112,6 +123,7 @@ function setMainContainer() {
     const p2CS: (HTMLParagraphElement) = document.createElement("p");
     const p3CS: (HTMLParagraphElement) = document.createElement("p");
     const divEpisodesCS: (HTMLDivElement) = document.createElement("div");
+    if (main === null) return;
 
     mainContainer.setAttribute("class", "container overflow-auto mt-5 mb-5 p-3");
     episodeSection.classList.add("episode-info");

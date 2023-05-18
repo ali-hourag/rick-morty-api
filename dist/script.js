@@ -18,6 +18,8 @@ function pageLoaded() {
         const episodes = yield getEpisodes();
         addEpisodes(episodes.results);
         const episodesContainer = document.querySelector(".episodes-bar-container");
+        if (episodesContainer === null)
+            return;
         episodesContainer.addEventListener("scroll", infiniteScrollSB);
     });
 }

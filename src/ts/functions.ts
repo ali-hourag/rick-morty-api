@@ -1,11 +1,18 @@
-import { Episodes, Episode, Character } from "./interface.js";
-import { getEpisodes, getEpisode, getCharacter } from "./fetchAPI.js";
+import { Episodes, Episode, Character, Location } from "./interface.js";
+import { getEpisodes, getEpisode, getCharacter, getLocation } from "./fetchAPI.js";
 
 /**
  * This file has different functions that interact with the DOM 
  * that are used in this project.
  * There are EventListeners and different related functions
  */
+
+// The order of the functions is important, so I have done it following the direction in which
+// the code runs, mantaining some logic in organizing the code.
+// The functions internally are organized in a logical manner as well so that
+// legibility, maintenance and reusability are improved.
+
+
 //------------------------------------------------------------------------------------------------------------
 /**
  * This funciont adds Episodes to the sidebar.
@@ -15,11 +22,12 @@ import { getEpisodes, getEpisode, getCharacter } from "./fetchAPI.js";
  */
 export function addEpisodes(result: Episodes["results"]): void {
 
-    const divEpisodes = document.querySelector(".episodes-bar-container") as HTMLDivElement;
+    const divEpisodes: (HTMLDivElement | null) = document.querySelector(".episodes-bar-container");
     const anchorClasses: string = "episode-link list-group-item list-group-item-action py-3 lh-tight";
     const pClass: string = "text-episode";
     let startIndex: number = result[0].id; //is the id of the first episode of the array.
     let endIndex: number = result[result.length - 1].id; //is the id of the last episode of the array.
+    if (divEpisodes === null) return;
 
     //create episodes on the sidebar
     for (let i = startIndex; i <= endIndex; i++) {
@@ -66,10 +74,12 @@ export function addEpisodes(result: Episodes["results"]): void {
  */
 async function setDefaultEpisode(): Promise<void> {
     const episodeInfo: Episode = await getEpisode(undefined, "1");
-    const episodeSection = document.querySelector(".episode-info") as HTMLElement;
-    const headerEpisode = document.querySelector(".h3-episode") as HTMLHeadingElement;
-    const pInfoEpisode = document.querySelector(".p-info-episode") as HTMLParagraphElement;
-
+    const episodeSection: (HTMLElement | null) = document.querySelector(".episode-info");
+    const headerEpisode: (HTMLHeadingElement | null) = document.querySelector(".h3-episode");
+    const pInfoEpisode: (HTMLParagraphElement | null) = document.querySelector(".p-info-episode");
+    if (episodeSection === null) return;
+    if (headerEpisode === null) return;
+    if (pInfoEpisode === null) return;
 
     headerEpisode.innerText = `EPISODE 1 -- ${episodeInfo.name}`;
     pInfoEpisode.innerText = `${episodeInfo.air_date} ---- ${episodeInfo.episode}`;
@@ -78,90 +88,6 @@ async function setDefaultEpisode(): Promise<void> {
     //Show episode section after everything has been set
     episodeSection.classList.add("sections-display");
 }
-//------------------------------------------------------------------------------------------------------------
-/**
- * EventListener of the episode when clicked on the top sidebar
- * or when displaying the character information on the main.
- * @param this object of the element clicked
- * does not reutrn anything.
- * It sets up the respective elements for the episode clicked
- */
-async function episodeClicked(this: HTMLAnchorElement): Promise<void> {
-    const episodeSection = document.querySelector(".episode-info") as HTMLElement;
-    const characterSection = document.querySelector(".character-info") as HTMLElement;
-    const headerEpisode = document.querySelector(".h3-episode") as HTMLHeadingElement;
-    const pInfoEpisode = document.querySelector(".p-info-episode") as HTMLParagraphElement;
-    const idEpisode = this.getAttribute("id") as string;
-
-    //children[0] will be a paragraph or heading depending on which part the episode has
-    //been clicked. If the sidebar at the top, then paragraph
-    //if the main container when seeing the character information, then heading
-    let episodeText: string = (this.children[0] as HTMLParagraphElement | HTMLHeadingElement).innerText;
-
-    //Highligh the episode selected and move the scrollbar if needed
-    removeEpisodeSelected();
-
-    //Make active the episode of the sidebar selected
-
-    /**
-     * In this part we have to differenciate. If the function has been called from the click of an episode at
-     * the top sidebar or clicked from the container when showing the character information.
-     * If it is the second option, then we enter on the if conditional. Otherwise, on the else.
-     */
-    if (this.classList.contains("episode-card-character-selected")) {
-        const episodesContainer = document.querySelector(".episodes-bar-container") as HTMLElement;
-        let indexAnchorElement: number = parseInt(idEpisode) - 1;
-        //Add ?page=2 and ?page=3 if necessary
-        if (parseInt(idEpisode) > 20 && sessionStorage.getItem("page") === "1") {
-            const episodes: Episodes = await getEpisodes("?page=2");
-            addEpisodes(episodes.results);
-        }
-        if (parseInt(idEpisode) > 40 && sessionStorage.getItem("page") !== "3") {
-            const episodes: Episodes = await getEpisodes("?page=3");
-            addEpisodes(episodes.results);
-        }
-
-        //Has to be here, since NodeList is static and the previous conditionals may add some more anchor elements
-        const episodesSideBar: NodeListOf<HTMLAnchorElement> = document.querySelectorAll(".episode-link");
-
-
-        episodesSideBar[indexAnchorElement].classList.add("active");
-
-        /**
-         * After selecting an episode from the container I want the top scroll to be in the episode I 
-         * have chosen and I want it to be highlighted (which has been done on the previous step).
-         * To move the scrollbar I get the width of the anchor element on the top side bar and I multiply
-         * it by the id of the episode selected. (-2 just to position it more centered for mobile
-         * devices and on the first positions for desktop devices).
-         * Then, this total width is assigned to the scrollLeft property of the container with the scrollbar
-         * which will move the container to the left.
-         * Without the -2 the anchor element will be last one to be hidden.
-         */
-        let scrollLeft: number = episodesSideBar[indexAnchorElement].clientWidth * (parseInt(idEpisode) - 2);
-        episodesContainer.scrollLeft = scrollLeft;
-
-
-    } else (this.classList.add("active")); //If it is clicked from the top sidebar, then just add the active class
-
-    //Set breadcrumb
-    setBreadcrumb(0);
-
-
-
-
-    //Get episode clicked info from API
-    const episodeInfo: Episode = await getEpisode(undefined, idEpisode);
-    //Apply a title of the container
-    headerEpisode.innerText = `${episodeText} -- ${episodeInfo.name}`;
-    pInfoEpisode.innerText = `${episodeInfo.air_date} ---- ${episodeInfo.episode}`;
-
-    addCharacters(episodeInfo.characters);
-
-    //Show episodeSections after everything has been set
-    if (characterSection.classList.contains("sections-display")) characterSection.classList.remove("sections-display");
-    episodeSection.classList.add("sections-display");
-}
-
 
 //------------------------------------------------------------------------------------------------------------
 /**
@@ -170,7 +96,8 @@ async function episodeClicked(this: HTMLAnchorElement): Promise<void> {
  * on the element clicked showing the characters that appeared in a certain episode
  */
 function addCharacters(charactersURL: Array<string>): void {
-    const charactersContainer = document.querySelector(".characters-container") as HTMLDivElement;
+    const charactersContainer: (HTMLDivElement | null) = document.querySelector(".characters-container");
+    if (charactersContainer === null) return;
     //Remove previous characters from another episode
     charactersContainer.replaceChildren();
 
@@ -209,6 +136,90 @@ function addCharacters(charactersURL: Array<string>): void {
 }
 //------------------------------------------------------------------------------------------------------------
 /**
+ * EventListener of the episode when clicked on the top sidebar
+ * or when displaying the character information on the main.
+ * @param this object of the element clicked
+ * does not reutrn anything.
+ * It sets up the respective elements for the episode clicked
+ */
+async function episodeClicked(this: HTMLAnchorElement): Promise<void> {
+    const episodeSection: (HTMLElement | null) = document.querySelector(".episode-info");
+    const characterSection: (HTMLElement | null) = document.querySelector(".character-info");
+    const headerEpisode: (HTMLHeadingElement | null) = document.querySelector(".h3-episode");
+    const pInfoEpisode: (HTMLParagraphElement | null) = document.querySelector(".p-info-episode");
+    const idEpisode: (string | null) = this.getAttribute("id");
+
+    if (episodeSection === null) return;
+    if (characterSection === null) return;
+    if (headerEpisode === null) return;
+    if (pInfoEpisode === null) return;
+    if (idEpisode === null) return;
+
+    //children[0] will be a paragraph or heading depending on which part the episode has
+    //been clicked. If the sidebar at the top, then paragraph
+    //if the main container when seeing the character information, then heading
+
+    let episodeText: (string | null) = (this.children[0]).textContent;
+
+    //Highligh the episode selected and move the scrollbar if needed
+    removeEpisodeSelected();
+
+    //Make active the episode of the sidebar selected
+
+    /**
+     * In this part we have to differenciate. If the function has been called from the click of an episode at
+     * the top sidebar or clicked from the container when showing the character information.
+     * If it is the second option, then we enter on the if conditional. Otherwise, on the else.
+     */
+    if (this.classList.contains("episode-card-character-selected")) {
+        const episodesContainer: (HTMLElement | null) = document.querySelector(".episodes-bar-container");
+        if (episodesContainer === null) return;
+        let indexAnchorElement: number = parseInt(idEpisode) - 1;
+        //Add ?page=2 and ?page=3 if necessary
+        if (parseInt(idEpisode) > 20 && sessionStorage.getItem("page") === "1") {
+            const episodes: Episodes = await getEpisodes("?page=2");
+            addEpisodes(episodes.results);
+        }
+        if (parseInt(idEpisode) > 40 && sessionStorage.getItem("page") !== "3") {
+            const episodes: Episodes = await getEpisodes("?page=3");
+            addEpisodes(episodes.results);
+        }
+        //Has to be here, since NodeList is static and the previous conditionals may add some more anchor elements
+        const episodesSideBar: NodeListOf<HTMLAnchorElement> = document.querySelectorAll(".episode-link");
+        episodesSideBar[indexAnchorElement].classList.add("active");
+
+        /**
+         * After selecting an episode from the container I want the top scroll to be in the episode I 
+         * have chosen and I want it to be highlighted (which has been done on the previous step).
+         * To move the scrollbar I get the width of the anchor element on the top side bar and I multiply
+         * it by the id of the episode selected. (-2 just to position it more centered for mobile
+         * devices and on the first positions for desktop devices).
+         * Then, this total width is assigned to the scrollLeft property of the container with the scrollbar
+         * which will move the container to the left.
+         * Without the -2 the anchor element will be last one to be hidden.
+         */
+        let scrollLeft: number = episodesSideBar[indexAnchorElement].clientWidth * (parseInt(idEpisode) - 2);
+        episodesContainer.scrollLeft = scrollLeft;
+
+    } else (this.classList.add("active")); //If it is clicked from the top sidebar, then just add the active class
+
+    //Set breadcrumb
+    setBreadcrumb(0);
+
+    //Get episode clicked info from API
+    const episodeInfo: Episode = await getEpisode(undefined, idEpisode);
+    //Apply a title of the container
+    headerEpisode.innerText = `${episodeText} -- ${episodeInfo.name}`;
+    pInfoEpisode.innerText = `${episodeInfo.air_date} ---- ${episodeInfo.episode}`;
+
+    addCharacters(episodeInfo.characters);
+
+    //Show episodeSections after everything has been set
+    if (characterSection.classList.contains("sections-display")) characterSection.classList.remove("sections-display");
+    episodeSection.classList.add("sections-display");
+}
+//------------------------------------------------------------------------------------------------------------
+/**
  * 
  * @param this div element of the character clicked
  * after clicking in a character, this function changes to the character section
@@ -216,15 +227,24 @@ function addCharacters(charactersURL: Array<string>): void {
  */
 async function characterClicked(this: HTMLDivElement): Promise<void> {
     setBreadcrumb(1); //change breadcrumb
-    const characterId = this.getAttribute("id") as string;
+    const characterId: (string | null) = this.getAttribute("id");
+    if (characterId === null) return;
     const character: Character = await getCharacter(undefined, characterId);
-    const episodeSection = document.querySelector(".episode-info") as HTMLElement;
-    const characterSection = document.querySelector(".character-info") as HTMLElement;
-    const cardImg = document.querySelector(".img-character-selected") as HTMLImageElement;
-    const titleH4CS = document.querySelector(".h4-title-card") as HTMLHeadingElement;
-    const p1CS = document.querySelector(".character-selected-state") as HTMLParagraphElement;
-    const p2CS = document.querySelector(".character-location-origin") as HTMLParagraphElement;
-    const p3CS = document.querySelector(".character-location-actual") as HTMLParagraphElement;
+    const episodeSection: (HTMLElement | null) = document.querySelector(".episode-info");
+    const characterSection: (HTMLElement | null) = document.querySelector(".character-info");
+    const cardImg: (HTMLImageElement | null) = document.querySelector(".img-character-selected");
+    const titleH4CS: (HTMLHeadingElement | null) = document.querySelector(".h4-title-card");
+    const p1CS: (HTMLParagraphElement | null) = document.querySelector(".character-selected-state");
+    const p2CS: (HTMLParagraphElement | null) = document.querySelector(".character-location-origin");
+    const p3CS: (HTMLParagraphElement | null) = document.querySelector(".character-location-actual");
+
+    if (episodeSection === null) return;
+    if (characterSection === null) return;
+    if (cardImg === null) return;
+    if (titleH4CS === null) return;
+    if (p1CS === null) return;
+    if (p2CS === null) return;
+    if (p3CS === null) return;
 
     cardImg.setAttribute("src", character.image); //Show image
     //Set card text with the character's information
@@ -233,31 +253,21 @@ async function characterClicked(this: HTMLDivElement): Promise<void> {
     p2CS.innerText = character.origin.name;
     p3CS.innerText = character.location.name;
 
-
     addEpisodesCS(character.episode);
 
     if (p2CS.innerText !== "unknown") {
-        p2CS.setAttribute("origin", character.origin.url);
+        p2CS.setAttribute("origin-url", character.origin.url);
         p2CS.addEventListener("click", locationClicked);
     }
-    p3CS.setAttribute("location", character.location.url);
-    p3CS.addEventListener("click", locationClicked);
+    if (p3CS.innerText !== "unknown") {
+        p3CS.setAttribute("location-url", character.location.url);
+        p3CS.addEventListener("click", locationClicked);
+    }
+
 
     //Hide other section, and show this one after everything has been set
     episodeSection.classList.remove("sections-display");
     characterSection.classList.add("sections-display");
-
-}
-//------------------------------------------------------------------------------------------------------------
-/**
- * 
- */
-async function locationClicked(this: HTMLParagraphElement): Promise<void> {
-    //Set everything up, and create characters
-
-
-    //Change sections
-
 }
 //------------------------------------------------------------------------------------------------------------
 /**
@@ -266,7 +276,12 @@ async function locationClicked(this: HTMLParagraphElement): Promise<void> {
  * on the element clicked showing the episodes in which the character has appeared
  */
 function addEpisodesCS(episodesURL: Array<string>): void {
-    const episodesContainer = document.querySelector(".episodes-container") as HTMLDivElement;
+    //Remove two eventListeners. In the function comments I explain why is this done
+    removeLocationEventListener();
+
+    const episodesContainer: (HTMLDivElement | null) = document.querySelector(".episodes-container");
+    if (episodesContainer === null) return;
+
     episodesContainer.replaceChildren();
     episodesURL.forEach(async (episodeURL: string): Promise<void> => {
         const episodeCardContainerCS: (HTMLDivElement) = document.createElement("div");
@@ -287,9 +302,67 @@ function addEpisodesCS(episodesURL: Array<string>): void {
         episodeCardContainerCS.appendChild(h2EpisodeCS);
         episodeCardContainerCS.appendChild(pEpisodeCS);
 
-
         episodesContainer.appendChild(episodeCardContainerCS);
     })
+
+}
+//------------------------------------------------------------------------------------------------------------
+/**
+ * 
+ * @param this location clicked.
+ * It can be origin or actual location.
+ * It does not return anything.
+ * It gives us the characters which are residents or come from that location
+ */
+async function locationClicked(this: HTMLParagraphElement): Promise<void> {
+    //Set everything up, and create characters
+    //I will reuse the episode Section since the structure is very similar
+    const episodeSection: (HTMLElement | null) = document.querySelector(".episode-info");
+    const characterSection: (HTMLElement | null) = document.querySelector(".character-info");
+    const h3Location: (HTMLHeadingElement | null) = document.querySelector(".h3-episode");
+    const pLocation: (HTMLParagraphElement | null) = document.querySelector(".p-info-episode");
+    let urlLocation: string | null;
+    if (episodeSection === null) return;
+    if (characterSection === null) return;
+    if (h3Location === null) return;
+    if (pLocation === null) return;
+
+    if (this.getAttribute("origin-url") !== null) urlLocation = this.getAttribute("origin-url");
+    else urlLocation = this.getAttribute("location-url");
+    if (urlLocation === null) return;
+
+    const location: Location = await getLocation(urlLocation);
+    setBreadcrumb(2);
+
+    h3Location.innerText = location.name;
+    pLocation.innerText = `${location.type} -- ${location.dimension}`;
+
+
+    addCharacters(location.residents);
+    //Change sections
+    characterSection.classList.remove("sections-display");
+    episodeSection.classList.add("sections-display");
+}
+
+//------------------------------------------------------------------------------------------------------------
+/**
+ * This function does not receive or return anything.
+ * It removes two eventListeners for the next reasons:
+ * Remove EventListeners from the paragraphs that link to the locationClicked function that
+ * calls this function. If they are not removed, we will keep adding eventListeners.
+ * And if the origin is unknown it will link to the previous origin clicked, when it should not
+ * link to any location.
+ * This is why it is important to remove these eventListeners.
+ * Other eventListeners have not been removed because those elements get removed and replaced by others
+ * and after removing the element, naturally the eventListener does too.
+ */
+function removeLocationEventListener() {
+    const p2CS: (HTMLParagraphElement | null) = document.querySelector(".character-location-origin");
+    const p3CS: (HTMLParagraphElement | null) = document.querySelector(".character-location-actual");
+    if (p2CS === null) return;
+    if (p3CS === null) return;
+    if (p2CS.getAttribute("origin-url") !== null) p2CS.removeEventListener("click", locationClicked);
+    if (p3CS.getAttribute("location-url") !== null) p3CS.removeEventListener("click", locationClicked);
 }
 //------------------------------------------------------------------------------------------------------------
 /**
@@ -308,7 +381,6 @@ function setBreadcrumb(activeItem: (0 | 1 | 2)): void {
     breadcrumbItems[activeItem].classList.add("active");
 }
 //------------------------------------------------------------------------------------------------------------
-
 /**
  * If an episode is clicked, a class named active is added which gives a stronger background
  * so that it is highlighted. 
@@ -343,11 +415,11 @@ export async function infiniteScrollSB(): Promise<void> {
         //It is on true as well when all the episodes have been loaded and there is nothing more to make a request to.
         if (sessionStorage.getItem("endScroll") === "false") {
             sessionStorage.setItem("endScroll", "true"); //Set it on true to prevent scrolling while adding elements
-            let actualPage = sessionStorage.getItem("page") as string;
+            let actualPage: (string | null) = sessionStorage.getItem("page");
+            if (actualPage === null) return;
             //Fetch of the respective page of the API
             const episodes: Episodes = await getEpisodes(`?page=${(parseInt(actualPage) + 1).toString()}`);
             addEpisodes(episodes.results); //Add it to the sidebar
-
         }
     }
 }

@@ -1,4 +1,4 @@
-import { Episodes, Episode, Character, Locations, Location } from "./interface.js";
+import { Episodes, Episode, Character, Location } from "./interface.js";
 
 /**
  * This file only has async functions that make fetch requests to the
@@ -62,15 +62,15 @@ export async function getCharacter(URL: string = "https://rickandmortyapi.com/ap
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-
-export async function getLocations(page: string = ""): (Promise<Locations>) {
-    const res: Response = await fetch(`https://rickandmortyapi.com/api/location${page}`);
-    const locations: Locations = await res.json();
-    return locations;
-}
-
-export async function getLocation(locationNum: number): (Promise<Location>) {
-    const res: Response = await fetch(`https://rickandmortyapi.com/api/location/${locationNum.toString()}`);
+/**
+ * 
+ * @param URL 
+ * @returns 
+ */
+export async function getLocation(URL: string = "https://rickandmortyapi.com/api/location/"): (Promise<Location>) {
+    const res: Response = await fetch(URL);
     const location: Location = await res.json();
     return location;
 }
+
+

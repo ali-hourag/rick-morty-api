@@ -7,13 +7,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { getEpisodes, getEpisode, getCharacter } from "./fetchAPI.js";
+import { getEpisodes, getEpisode, getCharacter, getLocation } from "./fetchAPI.js";
 export function addEpisodes(result) {
     const divEpisodes = document.querySelector(".episodes-bar-container");
     const anchorClasses = "episode-link list-group-item list-group-item-action py-3 lh-tight";
     const pClass = "text-episode";
     let startIndex = result[0].id;
     let endIndex = result[result.length - 1].id;
+    if (divEpisodes === null)
+        return;
     for (let i = startIndex; i <= endIndex; i++) {
         const aEpisode = document.createElement("a");
         const pEpisode = document.createElement("p");
@@ -50,51 +52,22 @@ function setDefaultEpisode() {
         const episodeSection = document.querySelector(".episode-info");
         const headerEpisode = document.querySelector(".h3-episode");
         const pInfoEpisode = document.querySelector(".p-info-episode");
+        if (episodeSection === null)
+            return;
+        if (headerEpisode === null)
+            return;
+        if (pInfoEpisode === null)
+            return;
         headerEpisode.innerText = `EPISODE 1 -- ${episodeInfo.name}`;
         pInfoEpisode.innerText = `${episodeInfo.air_date} ---- ${episodeInfo.episode}`;
         addCharacters(episodeInfo.characters);
         episodeSection.classList.add("sections-display");
     });
 }
-function episodeClicked() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const episodeSection = document.querySelector(".episode-info");
-        const characterSection = document.querySelector(".character-info");
-        const headerEpisode = document.querySelector(".h3-episode");
-        const pInfoEpisode = document.querySelector(".p-info-episode");
-        const idEpisode = this.getAttribute("id");
-        let episodeText = this.children[0].innerText;
-        removeEpisodeSelected();
-        if (this.classList.contains("episode-card-character-selected")) {
-            const episodesContainer = document.querySelector(".episodes-bar-container");
-            let indexAnchorElement = parseInt(idEpisode) - 1;
-            if (parseInt(idEpisode) > 20 && sessionStorage.getItem("page") === "1") {
-                const episodes = yield getEpisodes("?page=2");
-                addEpisodes(episodes.results);
-            }
-            if (parseInt(idEpisode) > 40 && sessionStorage.getItem("page") !== "3") {
-                const episodes = yield getEpisodes("?page=3");
-                addEpisodes(episodes.results);
-            }
-            const episodesSideBar = document.querySelectorAll(".episode-link");
-            episodesSideBar[indexAnchorElement].classList.add("active");
-            let scrollLeft = episodesSideBar[indexAnchorElement].clientWidth * (parseInt(idEpisode) - 2);
-            episodesContainer.scrollLeft = scrollLeft;
-        }
-        else
-            (this.classList.add("active"));
-        setBreadcrumb(0);
-        const episodeInfo = yield getEpisode(undefined, idEpisode);
-        headerEpisode.innerText = `${episodeText} -- ${episodeInfo.name}`;
-        pInfoEpisode.innerText = `${episodeInfo.air_date} ---- ${episodeInfo.episode}`;
-        addCharacters(episodeInfo.characters);
-        if (characterSection.classList.contains("sections-display"))
-            characterSection.classList.remove("sections-display");
-        episodeSection.classList.add("sections-display");
-    });
-}
 function addCharacters(charactersURL) {
     const charactersContainer = document.querySelector(".characters-container");
+    if (charactersContainer === null)
+        return;
     charactersContainer.replaceChildren();
     charactersURL.forEach((characterURL) => __awaiter(this, void 0, void 0, function* () {
         const character = yield getCharacter(characterURL);
@@ -124,10 +97,61 @@ function addCharacters(charactersURL) {
         card.addEventListener("click", characterClicked);
     }));
 }
+function episodeClicked() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const episodeSection = document.querySelector(".episode-info");
+        const characterSection = document.querySelector(".character-info");
+        const headerEpisode = document.querySelector(".h3-episode");
+        const pInfoEpisode = document.querySelector(".p-info-episode");
+        const idEpisode = this.getAttribute("id");
+        if (episodeSection === null)
+            return;
+        if (characterSection === null)
+            return;
+        if (headerEpisode === null)
+            return;
+        if (pInfoEpisode === null)
+            return;
+        if (idEpisode === null)
+            return;
+        let episodeText = (this.children[0]).textContent;
+        removeEpisodeSelected();
+        if (this.classList.contains("episode-card-character-selected")) {
+            const episodesContainer = document.querySelector(".episodes-bar-container");
+            if (episodesContainer === null)
+                return;
+            let indexAnchorElement = parseInt(idEpisode) - 1;
+            if (parseInt(idEpisode) > 20 && sessionStorage.getItem("page") === "1") {
+                const episodes = yield getEpisodes("?page=2");
+                addEpisodes(episodes.results);
+            }
+            if (parseInt(idEpisode) > 40 && sessionStorage.getItem("page") !== "3") {
+                const episodes = yield getEpisodes("?page=3");
+                addEpisodes(episodes.results);
+            }
+            const episodesSideBar = document.querySelectorAll(".episode-link");
+            episodesSideBar[indexAnchorElement].classList.add("active");
+            let scrollLeft = episodesSideBar[indexAnchorElement].clientWidth * (parseInt(idEpisode) - 2);
+            episodesContainer.scrollLeft = scrollLeft;
+        }
+        else
+            (this.classList.add("active"));
+        setBreadcrumb(0);
+        const episodeInfo = yield getEpisode(undefined, idEpisode);
+        headerEpisode.innerText = `${episodeText} -- ${episodeInfo.name}`;
+        pInfoEpisode.innerText = `${episodeInfo.air_date} ---- ${episodeInfo.episode}`;
+        addCharacters(episodeInfo.characters);
+        if (characterSection.classList.contains("sections-display"))
+            characterSection.classList.remove("sections-display");
+        episodeSection.classList.add("sections-display");
+    });
+}
 function characterClicked() {
     return __awaiter(this, void 0, void 0, function* () {
         setBreadcrumb(1);
         const characterId = this.getAttribute("id");
+        if (characterId === null)
+            return;
         const character = yield getCharacter(undefined, characterId);
         const episodeSection = document.querySelector(".episode-info");
         const characterSection = document.querySelector(".character-info");
@@ -136,6 +160,20 @@ function characterClicked() {
         const p1CS = document.querySelector(".character-selected-state");
         const p2CS = document.querySelector(".character-location-origin");
         const p3CS = document.querySelector(".character-location-actual");
+        if (episodeSection === null)
+            return;
+        if (characterSection === null)
+            return;
+        if (cardImg === null)
+            return;
+        if (titleH4CS === null)
+            return;
+        if (p1CS === null)
+            return;
+        if (p2CS === null)
+            return;
+        if (p3CS === null)
+            return;
         cardImg.setAttribute("src", character.image);
         titleH4CS.innerText = character.name;
         p1CS.innerText = `${character.species} -- ${character.status} -- ${character.gender}`;
@@ -143,21 +181,22 @@ function characterClicked() {
         p3CS.innerText = character.location.name;
         addEpisodesCS(character.episode);
         if (p2CS.innerText !== "unknown") {
-            p2CS.setAttribute("origin", character.origin.url);
+            p2CS.setAttribute("origin-url", character.origin.url);
             p2CS.addEventListener("click", locationClicked);
         }
-        p3CS.setAttribute("location", character.location.url);
-        p3CS.addEventListener("click", locationClicked);
+        if (p3CS.innerText !== "unknown") {
+            p3CS.setAttribute("location-url", character.location.url);
+            p3CS.addEventListener("click", locationClicked);
+        }
         episodeSection.classList.remove("sections-display");
         characterSection.classList.add("sections-display");
     });
 }
-function locationClicked() {
-    return __awaiter(this, void 0, void 0, function* () {
-    });
-}
 function addEpisodesCS(episodesURL) {
+    removeLocationEventListener();
     const episodesContainer = document.querySelector(".episodes-container");
+    if (episodesContainer === null)
+        return;
     episodesContainer.replaceChildren();
     episodesURL.forEach((episodeURL) => __awaiter(this, void 0, void 0, function* () {
         const episodeCardContainerCS = document.createElement("div");
@@ -175,6 +214,48 @@ function addEpisodesCS(episodesURL) {
         episodeCardContainerCS.appendChild(pEpisodeCS);
         episodesContainer.appendChild(episodeCardContainerCS);
     }));
+}
+function locationClicked() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const episodeSection = document.querySelector(".episode-info");
+        const characterSection = document.querySelector(".character-info");
+        const h3Location = document.querySelector(".h3-episode");
+        const pLocation = document.querySelector(".p-info-episode");
+        let urlLocation;
+        if (episodeSection === null)
+            return;
+        if (characterSection === null)
+            return;
+        if (h3Location === null)
+            return;
+        if (pLocation === null)
+            return;
+        if (this.getAttribute("origin-url") !== null)
+            urlLocation = this.getAttribute("origin-url");
+        else
+            urlLocation = this.getAttribute("location-url");
+        if (urlLocation === null)
+            return;
+        const location = yield getLocation(urlLocation);
+        setBreadcrumb(2);
+        h3Location.innerText = location.name;
+        pLocation.innerText = `${location.type} -- ${location.dimension}`;
+        addCharacters(location.residents);
+        characterSection.classList.remove("sections-display");
+        episodeSection.classList.add("sections-display");
+    });
+}
+function removeLocationEventListener() {
+    const p2CS = document.querySelector(".character-location-origin");
+    const p3CS = document.querySelector(".character-location-actual");
+    if (p2CS === null)
+        return;
+    if (p3CS === null)
+        return;
+    if (p2CS.getAttribute("origin-url") !== null)
+        p2CS.removeEventListener("click", locationClicked);
+    if (p3CS.getAttribute("location-url") !== null)
+        p3CS.removeEventListener("click", locationClicked);
 }
 function setBreadcrumb(activeItem) {
     const breadcrumbItems = document.querySelectorAll(".breadcrumb-item");
@@ -198,6 +279,8 @@ export function infiniteScrollSB() {
             if (sessionStorage.getItem("endScroll") === "false") {
                 sessionStorage.setItem("endScroll", "true");
                 let actualPage = sessionStorage.getItem("page");
+                if (actualPage === null)
+                    return;
                 const episodes = yield getEpisodes(`?page=${(parseInt(actualPage) + 1).toString()}`);
                 addEpisodes(episodes.results);
             }

@@ -28,16 +28,9 @@ export function getCharacter(URL = "https://rickandmortyapi.com/api/character", 
         return character;
     });
 }
-export function getLocations(page = "") {
+export function getLocation(URL = "https://rickandmortyapi.com/api/location/") {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(`https://rickandmortyapi.com/api/location${page}`);
-        const locations = yield res.json();
-        return locations;
-    });
-}
-export function getLocation(locationNum) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(`https://rickandmortyapi.com/api/location/${locationNum.toString()}`);
+        const res = yield fetch(URL);
         const location = yield res.json();
         return location;
     });

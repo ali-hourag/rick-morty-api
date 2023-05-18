@@ -7,6 +7,8 @@ export function setHeader() {
     const ol = document.createElement("ol");
     const h1 = document.createElement("h1");
     const emptyDiv = document.createElement("div");
+    if (body === null)
+        return;
     for (let i = 0; i < 3; i++) {
         const li = document.createElement("li");
         li.classList.add("breadcrumb-item");
@@ -49,6 +51,8 @@ function setEpisodes() {
     const aEpisodes = document.createElement("a");
     const pEpisodes = document.createElement("p");
     const divEpisodes = document.createElement("div");
+    if (header === null)
+        return;
     main.setAttribute("class", "main mainContainer_main-styles d-flex flex-column");
     main.appendChild(episodesSection);
     episodesSection.setAttribute("class", "episodes-sidebar d-flex flex-row");
@@ -80,6 +84,8 @@ function setMainContainer() {
     const p2CS = document.createElement("p");
     const p3CS = document.createElement("p");
     const divEpisodesCS = document.createElement("div");
+    if (main === null)
+        return;
     mainContainer.setAttribute("class", "container overflow-auto mt-5 mb-5 p-3");
     episodeSection.classList.add("episode-info");
     divTitleES.setAttribute("class", "row");
