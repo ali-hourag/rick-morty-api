@@ -9,7 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { setHeader } from "./setHTML.js";
 import { getEpisodes } from "./fetchAPI.js";
-import { infiniteScrollSB, addEpisodes } from "./functions.js";
+import { addEpisodes } from "./functions.js";
+import { infiniteScrollSB } from "./supportFunctions.js";
 window.addEventListener("load", pageLoaded);
 function pageLoaded() {
     return __awaiter(this, void 0, void 0, function* () {

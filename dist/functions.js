@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { getEpisodes, getEpisode, getCharacter, getLocation } from "./fetchAPI.js";
+import { removeLocationEventListener, setBreadcrumb, removeEpisodeSelected, removeCardCharacterContainerEventListener, removeEventListenersCardsEpisodes } from "./supportFunctions.js";
 export function addEpisodes(result) {
     const divEpisodes = document.querySelector(".episodes-bar-container");
     const anchorClasses = "episode-link list-group-item list-group-item-action py-3 lh-tight";
@@ -61,14 +62,18 @@ function setDefaultEpisode() {
         headerEpisode.innerText = `EPISODE 1 -- ${episodeInfo.name}`;
         pInfoEpisode.innerText = `${episodeInfo.air_date} ---- ${episodeInfo.episode}`;
         addCharacters(episodeInfo.characters);
-        episodeSection.classList.add("sections-display");
+        episodeSection === null || episodeSection === void 0 ? void 0 : episodeSection.classList.add("sections-display");
     });
 }
 function addCharacters(charactersURL) {
     const charactersContainer = document.querySelector(".characters-container");
     if (charactersContainer === null)
         return;
-    charactersContainer.replaceChildren();
+    const cardCharacterContainer = document.querySelectorAll(".card-character-container");
+    if (cardCharacterContainer.length > 0) {
+        removeCardCharacterContainerEventListener();
+        charactersContainer.replaceChildren();
+    }
     charactersURL.forEach((characterURL) => __awaiter(this, void 0, void 0, function* () {
         const character = yield getCharacter(characterURL);
         const cardContainer = document.createElement("div");
@@ -77,7 +82,7 @@ function addCharacters(charactersURL) {
         const cardBody = document.createElement("div");
         const titleCardH4 = document.createElement("h4");
         const infoCardP = document.createElement("p");
-        cardContainer.setAttribute("class", "col p-2");
+        cardContainer.setAttribute("class", "col p-2 card-character-container");
         card.setAttribute("class", "card");
         card.setAttribute("id", character.id.toString());
         cardImg.setAttribute("class", "card-img-top");
@@ -97,7 +102,7 @@ function addCharacters(charactersURL) {
         card.addEventListener("click", characterClicked);
     }));
 }
-function episodeClicked() {
+export function episodeClicked() {
     return __awaiter(this, void 0, void 0, function* () {
         const episodeSection = document.querySelector(".episode-info");
         const characterSection = document.querySelector(".character-info");
@@ -146,7 +151,7 @@ function episodeClicked() {
         episodeSection.classList.add("sections-display");
     });
 }
-function characterClicked() {
+export function characterClicked() {
     return __awaiter(this, void 0, void 0, function* () {
         setBreadcrumb(1);
         const characterId = this.getAttribute("id");
@@ -197,7 +202,11 @@ function addEpisodesCS(episodesURL) {
     const episodesContainer = document.querySelector(".episodes-container");
     if (episodesContainer === null)
         return;
-    episodesContainer.replaceChildren();
+    const cardsEpisodesContainers = document.querySelectorAll(".episode-card-character-selected");
+    if (cardsEpisodesContainers.length > 0) {
+        removeEventListenersCardsEpisodes();
+        episodesContainer.replaceChildren();
+    }
     episodesURL.forEach((episodeURL) => __awaiter(this, void 0, void 0, function* () {
         const episodeCardContainerCS = document.createElement("div");
         const h2EpisodeCS = document.createElement("h2");
@@ -209,13 +218,13 @@ function addEpisodesCS(episodesURL) {
         pEpisodeCS.setAttribute("class", "episode-code-character-selected");
         h2EpisodeCS.innerText = `EPISODE  ${episode.id.toString()}`;
         pEpisodeCS.innerText = episode.episode;
-        episodeCardContainerCS.addEventListener("click", episodeClicked);
         episodeCardContainerCS.appendChild(h2EpisodeCS);
         episodeCardContainerCS.appendChild(pEpisodeCS);
         episodesContainer.appendChild(episodeCardContainerCS);
+        episodeCardContainerCS.addEventListener("click", episodeClicked);
     }));
 }
-function locationClicked() {
+export function locationClicked() {
     return __awaiter(this, void 0, void 0, function* () {
         const episodeSection = document.querySelector(".episode-info");
         const characterSection = document.querySelector(".character-info");
@@ -243,47 +252,5 @@ function locationClicked() {
         addCharacters(location.residents);
         characterSection.classList.remove("sections-display");
         episodeSection.classList.add("sections-display");
-    });
-}
-function removeLocationEventListener() {
-    const p2CS = document.querySelector(".character-location-origin");
-    const p3CS = document.querySelector(".character-location-actual");
-    if (p2CS === null)
-        return;
-    if (p3CS === null)
-        return;
-    if (p2CS.getAttribute("origin-url") !== null)
-        p2CS.removeEventListener("click", locationClicked);
-    if (p3CS.getAttribute("location-url") !== null)
-        p3CS.removeEventListener("click", locationClicked);
-}
-function setBreadcrumb(activeItem) {
-    const breadcrumbItems = document.querySelectorAll(".breadcrumb-item");
-    breadcrumbItems.forEach((breadcrumbItem) => {
-        if (breadcrumbItem.classList.contains("active"))
-            breadcrumbItem.classList.remove("active");
-    });
-    breadcrumbItems[activeItem].classList.add("active");
-}
-function removeEpisodeSelected() {
-    const episodesSideBar = document.querySelectorAll(".episode-link");
-    episodesSideBar.forEach((episode) => {
-        if (episode.classList.contains("active"))
-            episode.classList.remove("active");
-    });
-}
-export function infiniteScrollSB() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const episodesContainer = document.querySelector(".episodes-bar-container");
-        if (episodesContainer.scrollWidth - episodesContainer.clientWidth < episodesContainer.scrollLeft + 2) {
-            if (sessionStorage.getItem("endScroll") === "false") {
-                sessionStorage.setItem("endScroll", "true");
-                let actualPage = sessionStorage.getItem("page");
-                if (actualPage === null)
-                    return;
-                const episodes = yield getEpisodes(`?page=${(parseInt(actualPage) + 1).toString()}`);
-                addEpisodes(episodes.results);
-            }
-        }
     });
 }

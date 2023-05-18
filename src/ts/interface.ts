@@ -29,13 +29,16 @@ export interface Episodes extends Info {
     results: Array<Episode>;
 }
 
+enum statusCharacter { "Alive", "Dead", "unknown" };
+enum genderCharacter { "Female", "Male", "Genderless", "unknown" };
+
 export interface Character {
     id: number;
     name: string;
-    status: string;
+    status: statusCharacter;
     species: string;
     type: string;
-    gender: string;
+    gender: genderCharacter;
     origin: {
         name: string;
         url: string;

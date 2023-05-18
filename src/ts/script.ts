@@ -1,7 +1,8 @@
 import { setHeader } from "./setHTML.js";
 import { getEpisodes } from "./fetchAPI.js";
 import { Episodes } from "./interface.js";
-import { infiniteScrollSB, addEpisodes } from "./functions.js";
+import { addEpisodes } from "./functions.js";
+import { infiniteScrollSB } from "./supportFunctions.js";
 
 window.addEventListener("load", pageLoaded);
 
