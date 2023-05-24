@@ -47,7 +47,6 @@ export async function infiniteScrollSB(): Promise<void> {
     //offseetWidth is not being used since there is no border or padding.
     if (episodesContainer.scrollWidth - episodesContainer.clientWidth < episodesContainer.scrollLeft + 2) {
 
-
         //The endScroll item controlls that this change is not done constantly if the user is scrolling too fast.
         //End scroll is put on false when all the data is fetched and showed. When the data is being fetched or
         //showed, then endScroll is put on true and it won't enter this function, and hence, not make changes.

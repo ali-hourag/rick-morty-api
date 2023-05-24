@@ -5,7 +5,6 @@
  * after making requests to the API
  */
 
-
 export interface Info {
     info: {
         count: number;
