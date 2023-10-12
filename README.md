@@ -1,4 +1,4 @@
-# Apple Store Iphone Shopping Wizard 📱
+# RICK & MORTY APP 📱
 
 
 ![rick_img](https://github.com/ali-hourag/rick-morty-api/assets/131694498/4d2c6085-6610-4efd-b0a5-5963b172cb45)
