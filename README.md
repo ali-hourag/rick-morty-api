@@ -18,7 +18,7 @@ Moreover, I have implemented styles libraries like Bootstrap and started impleme
 ## Technologies
 - HTML
 - CSS
-- TypeScrip
+- TypeScript
 - Bootstrap
 - API
 
@@ -26,7 +26,7 @@ Moreover, I have implemented styles libraries like Bootstrap and started impleme
 ## Setup
 If you want run it directly from code do it trough Live Server or similar.
 <br/>
+<br/>
+Otherwise, open it by clicking <a href="https://rick-morty-api-eight.vercel.app/">here<a/>.
 
-Otherwise, open it by clicking <a href="https://iphone-shopping-wizard.vercel.app/">here<a/>.
-
-## Get Apple and enjoy! 📱
+## Get Rick & Morty app and enjoy! 📱
