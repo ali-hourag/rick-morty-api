@@ -88,6 +88,11 @@ body {
     -ms-border-radius: 20px;
     -o-border-radius: 20px;
     height: 90vh;
+    overflow: auto;
+}
+
+.container::-webkit-scrollbar {
+    display: none;
 }
 
 /*EPISODES SECTION*/
