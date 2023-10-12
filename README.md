@@ -2,6 +2,7 @@
 
 
 ![rick_img](https://github.com/ali-hourag/rick-morty-api/assets/131694498/4d2c6085-6610-4efd-b0a5-5963b172cb45)
+![Rick   Morty Ali](https://github.com/ali-hourag/rick-morty-api/assets/131694498/036928dc-9949-4642-8a9d-0b94ad9d854a=500x200)
 
 
 ## Table of Content:
