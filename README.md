@@ -15,6 +15,7 @@ Individual project done on May 2023 of the famous series Rick & Morty in which I
 Moreover, I have implemented styles libraries like Bootstrap and started implementing API requests to the Rick & Morty API.
 <br/>
 * In this app the user can access data about all episodes, characters and locations of Rick & Morty series.
+* User can access in mobile and web, since it is responsive!
 
 
 ## Technologies
