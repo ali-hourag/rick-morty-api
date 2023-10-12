@@ -29,7 +29,8 @@ Moreover, I have implemented styles libraries like Bootstrap and started impleme
 ## Setup
 If you want run it directly from code do it trough Live Server or similar.
 <br/>
-<br/>
 Otherwise, open it by clicking <a href="https://rick-morty-api-eight.vercel.app/">here<a/>.
+<br/>
+If you want to access it on mobile mode, right click > inspector > and click on mobile icon!
 
 ## Get Rick & Morty app and enjoy! 📱
