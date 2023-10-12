@@ -2,8 +2,7 @@
 
 
 ![rick_img](https://github.com/ali-hourag/rick-morty-api/assets/131694498/4d2c6085-6610-4efd-b0a5-5963b172cb45)
-![Rick   Morty Ali](https://github.com/ali-hourag/rick-morty-api/assets/131694498/036928dc-9949-4642-8a9d-0b94ad9d854a=500x200)
-
+<img src="https://github.com/ali-hourag/rick-morty-api/assets/131694498/036928dc-9949-4642-8a9d-0b94ad9d854a" width="300" height="606"/>
 
 ## Table of Content:
 
@@ -16,7 +15,7 @@ Individual project done on May 2023 of the famous series Rick & Morty in which I
 Moreover, I have implemented styles libraries like Bootstrap and started implementing API requests to the Rick & Morty API.
 <br/>
 * In this app the user can access data about all episodes, characters and locations of Rick & Morty series.
-* User can access in mobile and web, since it is responsive!
+* User can access it through mobile and web, since it is responsive!
 
 
 ## Technologies
