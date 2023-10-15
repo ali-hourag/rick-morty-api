@@ -12,10 +12,9 @@
 - [Setup](#setup)
 
 ## About
-Individual project done on May 2023 of the famous series Rick & Morty in which I have used a strongly typed language such as TypeScript.
-Moreover, I have implemented styles libraries like Bootstrap and started implementing API requests to the Rick & Morty API.
+Calendar project with different functionalities like adding events. Done with HTML, TypeScript, CSS and Bootstrap.
 <br/>
-* In this app the user can access data about all episodes, characters and locations of Rick & Morty series.
+* In this app the user can access a normal calendar and even have funcionalities like adding different type of events.
 * User can access it through mobile, tablet and web, since it is responsive!
 
 
@@ -24,14 +23,13 @@ Moreover, I have implemented styles libraries like Bootstrap and started impleme
 - CSS
 - TypeScript
 - Bootstrap
-- API
 
 
 ## Setup
 If you want run it directly from code do it trough Live Server or similar.
 <br/>
-Otherwise, open it by clicking <a href="https://rick-morty-api-eight.vercel.app/">here<a/>.
+Otherwise, open it by clicking <a href="https://ts-calendar-ruby.vercel.app/">here<a/>.
 <br/>
 If you want to access it on mobile or tablet mode, right click > inspector > and click on mobile icon!
 
-## Get Rick & Morty app and enjoy! 📱
+## Get Calendar app and enjoy! 📱
