@@ -17,7 +17,8 @@ Moreover, I have implemented styles libraries like Bootstrap and started impleme
 <br/>
 * In this app the user can access data about all episodes, characters and locations of Rick & Morty series.
 * User can access it through mobile, tablet and web, since it is responsive!
-
+<br/>
+<a href="https://drive.google.com/file/d/1OUdlb_GgIWq9igijOIRBeBSBw9lgNjhf/view?usp=sharing">Click here to see an explanatory video of the project and a demonstration!</a>
 
 ## Technologies
 - HTML
