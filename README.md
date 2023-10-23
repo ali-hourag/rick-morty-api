@@ -1,9 +1,10 @@
 # RICK & MORTY APP 📱
 
-
-![rick_img](https://github.com/ali-hourag/rick-morty-api/assets/131694498/4d2c6085-6610-4efd-b0a5-5963b172cb45)
+<div align="center">  
+  <img src="https://github.com/ali-hourag/rick-morty-api/assets/131694498/4d2c6085-6610-4efd-b0a5-5963b172cb45"/>
 <img src="https://github.com/ali-hourag/rick-morty-api/assets/131694498/036928dc-9949-4642-8a9d-0b94ad9d854a" width="300" height="606"/>
 <img src="https://github.com/ali-hourag/rick-morty-api/assets/131694498/6076c2be-be81-44be-ac6b-e1af826f9967" width="700" height="606"/>
+</div>
 
 ## Table of Content:
 
@@ -31,8 +32,8 @@ Moreover, I have implemented styles libraries like Bootstrap and started impleme
 If you want run it directly from code do it trough Live Server or similar.
 <br/>
 
-Otherwise, open it by clicking <a href="https://rick-morty-api-eight.vercel.app/">here<a/>.
+Otherwise, open it by clicking <a href="https://rick-morty-api-eight.vercel.app/">here<a/>. It is already deployed by Vercel!
 <br/>
-If you want to access it on mobile or tablet mode, right click > inspector > and click on mobile icon!
+If you want to access it on mobile or tablet mode, right click > inspector > and click on mobile icon! Or open it on your mobile phone or tablet!
 
 ## Get Rick & Morty app and enjoy! 📱
